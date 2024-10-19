@@ -8,7 +8,6 @@ import { ReactNode } from 'react';
 
 const Provider = ({ children }: { children: ReactNode }) => {
   const { user: clerkUser } = useUser()
-  if(!clerkUser) return
 
   return (
     <LiveblocksProvider 
@@ -18,7 +17,8 @@ const Provider = ({ children }: { children: ReactNode }) => {
         return users
       }}
       resolveMentionSuggestions={async({ text, roomId }) => {
-        const roomUsers = await getDocumentUsers({ roomId, currentUser: clerkUser.emailAddresses[0].emailAddress!, text })
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        const roomUsers = await getDocumentUsers({ roomId, currentUser: clerkUser?.emailAddresses[0].emailAddress!, text })
         return roomUsers
       }}
     >
@@ -28,7 +28,5 @@ const Provider = ({ children }: { children: ReactNode }) => {
   </LiveblocksProvider>
   )
 }
-
-//publicApiKey={"pk_dev_GDVCs…TL4KYG"}
 
 export default Provider
